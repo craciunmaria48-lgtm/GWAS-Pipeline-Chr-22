@@ -1,0 +1,16 @@
+# Genomic Data 
+*.vcf.gz
+*.vcf.gz.tbi
+raw_data/
+data_clean/
+*.bed
+*.bim
+*.fam
+
+# PLINK Logs and temp files
+*.log
+*.nosex
+*.tmp
+
+# Python cache
+__pycache__/
