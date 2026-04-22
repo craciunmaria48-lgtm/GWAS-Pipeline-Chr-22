@@ -12,6 +12,7 @@ Runs association analysis
 Designed for Chromosome 22 data from the 1000 Genomes Project, but easily adaptable to other datasets.
 
 Project Structure
+
 .
 ├── results/     
 ├── scripts/    
@@ -26,6 +27,7 @@ Core utilities (awk, mkdir)
 Clone the repository:
 
 git clone https://github.com/craciunmaria48-lgtm/GWAS-Pipeline-Chr-22/
+
 cd GWAS-Pipeline-Chr-22
 
 Run the pipeline:
