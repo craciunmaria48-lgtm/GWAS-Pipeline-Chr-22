@@ -13,9 +13,8 @@ Designed for Chromosome 22 data from the 1000 Genomes Project, but easily adapta
 
 Project Structure
 .
-├── raw_data/      # Raw genotype data and intermediate files
-├── data_clean/    # Quality-controlled datasets
-├── results/       # GWAS results
+├── results/     
+├── scripts/    
 └── README.md
 
 Requirements
@@ -26,20 +25,22 @@ Core utilities (awk, mkdir)
 
 Clone the repository:
 
-git clone https://github.com/your-username/gwas-pipeline.git
-cd gwas-pipeline
+git clone https://github.com/craciunmaria48-lgtm/GWAS-Pipeline-Chr-22/
+cd GWAS-Pipeline-Chr-22
 
 Run the pipeline:
-bash run_pipeline.sh
+bash scripts/run_pipeline.sh
 
 Pipeline Workflow
 1. Create Directory Structure
 mkdir -p raw_data data_clean results
-2. Convert VCF → PLINK Binary
+2. Download input data
+   wget -P raw_data https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr22.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz
+3. Convert VCF → PLINK Binary
 plink --vcf raw_data/ALL.chr22.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz \
       --make-bed \
       --out raw_data/chr22_raw
-3. Quality Control (QC)
+4. Quality Control (QC)
 Filters applied:
 MAF ≥ 0.05
 HWE p ≥ 1e-6
@@ -50,15 +51,15 @@ plink --bfile raw_data/chr22_raw \
       --geno 0.05 \
       --make-bed \
       --out data_clean/chr22_clean
-4. Generate Case-Control Phenotypes
+5. Generate Case-Control Phenotypes
 awk '{if (NR<=1253) print $1, $2, 1; else print $1, $2, 2}' \
 data_clean/chr22_clean.fam > data_clean/pheno_split.txt
-5. Integrate Phenotypes
+6. Integrate Phenotypes
 plink --bfile data_clean/chr22_clean \
       --pheno data_clean/pheno_split.txt \
       --make-bed \
       --out data_clean/chr22_final
-6. Association Analysis
+7. Association Analysis
 plink --bfile data_clean/chr22_final \
       --assoc \
       --allow-no-sex \
